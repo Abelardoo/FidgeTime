@@ -8,6 +8,7 @@ private:
     int * pos;
     int id;
     int nt;
+public:
     Thread(int a,int b)
     {
         id=a;
@@ -39,6 +40,14 @@ private:
             tmp[i]=max(tmp[i],pos[i]);
         }
     }
+    void printPos()
+    {
+        for(int i=0;i<nt;i++)
+        {
+            cout<<"id "<<id<<endl;
+            cout<<pos[i]<<endl;
+        }
+    }
 };
 int main() {
     int nt,close=1,opcion,opcion2,opcion3;
@@ -47,7 +56,7 @@ int main() {
     vector <Thread> vt;
     for(int i=0;i<nt;i++)
     {
-
+        vt.push_back(Thread(i+1,nt));
     }
     while(close)
     {
@@ -66,6 +75,11 @@ int main() {
                 if(opcion3==1 || opcion3==2)
                 {
                     if(opcion3==1)
+                    {
+                        vt[opcion2].doTask();
+                        vt[opcion2].printPos();
+                    }
+                    else
                     {
 
                     }
