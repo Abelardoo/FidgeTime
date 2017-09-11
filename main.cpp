@@ -90,11 +90,12 @@ int main() {
             }
 
         }
+        for(Thread a:vt)
+        {
+            a.printT();
+        }
     }
-    for(Thread a:vt)
-    {
-        a.printT();
-    }
+
     return 0;
 
 
