@@ -3,100 +3,99 @@
 using namespace std;
 
 class Thread{
-
 private:
-    int * pos;
     int id;
     int nt;
+    vector<int> pos;
 public:
     Thread(int a,int b)
     {
         id=a;
         nt=b;
-        int t[b];
-        pos=t;
-        for(int i=0;i<b;i++)
-        {
-            pos[i]=0;
-        }
+        pos.insert(pos.begin(),nt,0);
+
     }
-    int *getPos()
+    vector<int> getPos()
     {
         return pos;
     }
-    int getId()
+    void updatePos(int a,int b)
     {
-        return id;
+        pos[a]=b;
     }
-    void doTask()
+
+    void dotask()
     {
         pos[id]++;
+        printT();
     }
-    void sendMessage(Thread t)
+
+    void printT()
     {
-        int * tmp=t.getPos();
-        for(int i=0;i<nt;i++)
+        cout<<"id del proceso "<<id<<endl;
+        for(int a:pos)
         {
-            tmp[i]=max(tmp[i],pos[i]);
+            cout<<a<<endl;
         }
     }
-    void printPos()
+    void sendMesaage(Thread t)
     {
+        int aux=0;
         for(int i=0;i<nt;i++)
         {
-            cout<<"id "<<id<<endl;
-            cout<<pos[i]<<endl;
+
+            cout<<"testing recv current "<<t.getPos()[i]<<" send current "<<pos[i]<<endl;
+            aux=t.getPos()[i]>=pos[i]?t.getPos()[i]:pos[i];
+            t.updatePos(i,aux);
         }
+        t.printT();
     }
+
+
 };
 int main() {
-    int nt,close=1,opcion,opcion2,opcion3;
-    cout<<"Give the number of threads"<<endl;
+   int nt,opcion0=1,opcion1,opcion2,opcion3;
+    cout<<"Give me the number of threads you need"<<endl;
     cin>>nt;
-    vector <Thread> vt;
+    vector<Thread> vt;
     for(int i=0;i<nt;i++)
     {
-        vt.push_back(Thread(i+1,nt));
+        vt.push_back(Thread(i,nt));
     }
-    while(close)
+    while(opcion0)
     {
-        cout<<"Fidge Time"<<endl<<"Press 1 to select a thread"<<endl;
-        cout<<"Press 2 to exit";
-        cin>>opcion;
-        if(opcion == 1)
+        cout<<"Press 1 to select a thread or 0 to exit"<<endl;
+        cin>>opcion0;
+        if(opcion0!=0)
         {
-            cout<<"Give me the number of thread you want to acces"<<endl;
-            cin>>opcion2;
-            if(opcion2<=nt && opcion2>0)
+            cout<<"Write the number of the thread you want to select where the first Thread is 0"<<endl;
+            cin>>opcion1;
+            if(opcion1>=0 && opcion1<nt)
             {
-                cout<<"Press 1 to Do a task with the thread"<<endl;
-                cout<<"Press 2 to send a message to a thread"<<endl;
-                cin>>opcion3;
-                if(opcion3==1 || opcion3==2)
+                cout<<"Press 1 to do a task with the Thread of 2 to send a Message to other Thread"<<endl;
+                cin>>opcion2;
+                if(opcion2==1)
                 {
-                    if(opcion3==1)
+                    vt[opcion1].dotask();
+                }
+                if(opcion2==2)
+                {
+                    cout<<"Write the number of the thread you want to send the Message"<<endl;
+                    cin>>opcion3;
+                    if(opcion3!=opcion1 && opcion3>=0 && opcion3<nt)
                     {
-                        vt[opcion2].doTask();
-                        vt[opcion2].printPos();
-                    }
-                    else
-                    {
-
+                        vt[opcion1].sendMesaage(vt[opcion3]);
                     }
                 }
             }
-
+            for(Thread a:vt)
+            {
+                a.printT();
+            }
         }
-        else
-        {
-            close=0;
-        }
-
     }
-
-    
     return 0;
+
+
 }
-
-
-
+    
