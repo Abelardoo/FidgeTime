@@ -38,7 +38,7 @@ public:
             cout<<a<<endl;
         }
     }
-    void sendMesaage(Thread t)
+    void sendMesaage(Thread& t)
     {
         int aux=0;
         for(int i=0;i<nt;i++)
@@ -88,11 +88,12 @@ int main() {
                     }
                 }
             }
-            for(Thread a:vt)
-            {
-                a.printT();
-            }
+
         }
+    }
+    for(Thread a:vt)
+    {
+        a.printT();
     }
     return 0;
 
