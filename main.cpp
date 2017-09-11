@@ -7,6 +7,7 @@ private:
     int id;
     int nt;
     vector<int> pos;
+    vector<pair<int,int>> timestamp; //first posistion second value;
 public:
     Thread(int a,int b)
     {
@@ -22,6 +23,7 @@ public:
     void updatePos(int a,int b)
     {
         pos[a]=b;
+
     }
 
     void dotask()
